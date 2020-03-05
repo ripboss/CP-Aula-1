@@ -14,6 +14,9 @@ public class Ppi {
 		for (int i=0; i<cores; i++) {
 			threads[i] = new ThreadHelper(n/cores);
 			threads[i].start();
+		}
+		
+		for (int i=0; i<cores; i++) {
 			try {
 				threads[i].join();
 				
@@ -21,6 +24,7 @@ public class Ppi {
 				e.printStackTrace();
 			}
 		}
+			
 		
 		for (int i=0; i<cores; i++)
 			withinCircle += ((ThreadHelper)threads[i]).getPointsWithin();
