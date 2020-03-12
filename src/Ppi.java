@@ -1,7 +1,8 @@
+import java.util.Random;
 
 public class Ppi {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 		int n = Integer.parseInt(args[0]);
 		int cores;
@@ -9,7 +10,7 @@ public class Ppi {
 			cores = Integer.parseInt(args[1]);
 		else
 			cores = 1;
-		int withinCircle = 0;
+		
 		Thread[] threads = new Thread[cores];
 		for (int i=0; i<cores; i++) {
 			threads[i] = new ThreadHelper(n/cores);
@@ -17,15 +18,10 @@ public class Ppi {
 		}
 		
 		for (int i=0; i<cores; i++) {
-			try {
 				threads[i].join();
-				
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 			
-		
+		int withinCircle = 0;
 		for (int i=0; i<cores; i++)
 			withinCircle += ((ThreadHelper)threads[i]).getPointsWithin();
 		
@@ -50,16 +46,17 @@ class ThreadHelper extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		
+		Random random = new Random();
 		for (int i=0; i<this.n; i++) {
-			double x = Math.random();
-			double y = Math.random();
+			double x = random.nextDouble();
+			double y = random.nextDouble();
 			double test = Math.pow(x,2) + Math.pow(y,2);
 			if (test <= 1)
 				withinCircle++;	
 		}
 	}
 	
-	int getPointsWithin(){
+	public int getPointsWithin(){
 		return this.withinCircle;
 	}
 	
